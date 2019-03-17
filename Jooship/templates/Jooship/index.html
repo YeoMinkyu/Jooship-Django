@@ -1,0 +1,12 @@
+{% extends "Jooship/base.html" %}
+
+{% block content %}
+<h1>JOOSHIP</h1>
+<form id="home-search-form" action="/search" method="get" class="search nodisable">
+    <div class="home-search-form" search-form>
+        <label for="home-q" class="off-screen">search</label>
+        <input class="search-input" type="search" id="home-q" name="q" placeholder="Search Ticker">
+        <button type="submit" class="off-screen">search</button>
+    </div>
+</form>
+{% endblock %}
