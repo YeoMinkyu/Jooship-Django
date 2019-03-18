@@ -53,6 +53,36 @@ def get_cash_flow_figure(information_df, chart_columns):
 
     return go.Figure(data=cash_flow_data, layout=cash_flow_layout)
 
+def customize_subplot(information_df, chart_columns):
+    trace_revenue = go.Bar(x=chart_columns, y= information_df.values[0, 1:], name= 'Revenue USD')
+    trace_operating_income = go.Bar(x=chart_columns, y= information_df.values[1, 1:], name= 'Operating Income')
+    trace_net_income = go.Bar(x=chart_columns, y=information_df.values[3, 1:], name='Net Income')
+    trace_operating_margin = go.Scatter(x=chart_columns, y=information_df.values[2, 1:], name='Operating Margin %', yaxis='y3')
+    trace_net_margin = go.Scatter(x=chart_columns, y=information_df.values[9, 1:], name='Net Margin %', yaxis='y3')
+
+    trace_operating_cash_flow = go.Bar(x= chart_columns, y= information_df.values[7, 1:], name= 'Operating Cash Flow USD')
+    trace_free_cash_flow = go.Bar(x= chart_columns, y= information_df.values[8, 1:], name= 'Free Cash Flow USD')
+
+    figure = tools.make_subplots(rows=1, cols=2, subplot_titles=('Plot 1', 'Plot 2'))
+
+    figure.append_trace(trace_revenue, 1, 1)
+    figure.append_trace(trace_operating_income, 1, 1)
+    figure.append_trace(trace_net_income, 1, 1)
+    figure.append_trace(trace_operating_margin, 1, 1)
+    figure.append_trace(trace_net_margin, 1, 1)
+
+    figure.append_trace(trace_operating_cash_flow, 1, 2)
+    figure.append_trace(trace_free_cash_flow, 1, 2)
+
+    figure['data'][3].update(yaxis='y3')  # data[3] : trace_operating_margin
+    figure['data'][4].update(yaxis='y3')  # data[4] : trace_net_margin
+
+    figure['layout']['yaxis1'].update(title='yaxis 1 title')
+    figure['layout']['yaxis2'].update(title='yaxis 2 title')
+    figure['layout']['yaxis3'] = dict(title='yaxis 3 title', anchor='x1', side='right',  showgrid=False, overlaying='y')
+
+    return figure
+
 
 def get_graph():
     _head_title = _make_head_title()
@@ -61,12 +91,10 @@ def get_graph():
 
     # _table =  generate_table(information_df)
 
-    revenue_figure = get_revenue_figure(information_df, chart_columns)
-    cash_flow_figure = get_cash_flow_figure(information_df, chart_columns)
 
-    # figures = tools.make_subplots(rows=2, cols=2)
+    figures = customize_subplot(information_df, chart_columns)
 
-    plot_div = plot(revenue_figure, output_type='div', include_plotlyjs=False)
+    plot_div = plot(figures, output_type='div', include_plotlyjs=False)
     # plot_div = [plot(revenue_figure, output_type='div', include_plotlyjs=False),
     #             plot(cash_flow_figure, output_type='div', include_plotlyjs=False)]
     
