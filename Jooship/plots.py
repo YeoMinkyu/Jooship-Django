@@ -54,32 +54,61 @@ def get_cash_flow_figure(information_df, chart_columns):
     return go.Figure(data=cash_flow_data, layout=cash_flow_layout)
 
 def customize_subplot(information_df, chart_columns):
+
+    ##########################################################################################################################
     trace_revenue = go.Bar(x=chart_columns, y= information_df.values[0, 1:], name= 'Revenue USD')
     trace_operating_income = go.Bar(x=chart_columns, y= information_df.values[1, 1:], name= 'Operating Income')
     trace_net_income = go.Bar(x=chart_columns, y=information_df.values[3, 1:], name='Net Income')
-    trace_operating_margin = go.Scatter(x=chart_columns, y=information_df.values[2, 1:], name='Operating Margin %', yaxis='y3')
-    trace_net_margin = go.Scatter(x=chart_columns, y=information_df.values[9, 1:], name='Net Margin %', yaxis='y3')
+    trace_operating_margin = go.Scatter(x=chart_columns, y=information_df.values[2, 1:], name='Operating Margin %')
+    trace_net_margin = go.Scatter(x=chart_columns, y=information_df.values[9, 1:], name='Net Margin %')
 
     trace_operating_cash_flow = go.Bar(x= chart_columns, y= information_df.values[7, 1:], name= 'Operating Cash Flow USD')
     trace_free_cash_flow = go.Bar(x= chart_columns, y= information_df.values[8, 1:], name= 'Free Cash Flow USD')
 
-    figure = tools.make_subplots(rows=1, cols=2, subplot_titles=('Plot 1', 'Plot 2'))
+    trace_eps = go.Bar(x=chart_columns, y=information_df.values[4, 1:], name='Earning Per Share USD')
+    trace_revenue_yoy = go.Scatter(x=chart_columns, y=information_df.values[10, 1:], name='Revenue YoY %')
+    trace_operating_income_yoy = go.Scatter(x=chart_columns, y=information_df.values[11, 1:], name='Operating Income YoY %')
 
-    figure.append_trace(trace_revenue, 1, 1)
-    figure.append_trace(trace_operating_income, 1, 1)
-    figure.append_trace(trace_net_income, 1, 1)
-    figure.append_trace(trace_operating_margin, 1, 1)
-    figure.append_trace(trace_net_margin, 1, 1)
+    trace_dividends = go.Bar(x=chart_columns, y=information_df.values[5, 1:], name='Dividends USD')
+    trace_payout_ratio = go.Scatter(x=chart_columns, y=information_df.values[6, 1:], name='Payout Ratio %', yaxis='y2')
 
-    figure.append_trace(trace_operating_cash_flow, 1, 2)
-    figure.append_trace(trace_free_cash_flow, 1, 2)
+    figure = tools.make_subplots(rows=2, cols=2, horizontal_spacing=0.18, subplot_titles=('Revenue', 'Cash Flow','EPS','Dividends'))
 
-    figure['data'][3].update(yaxis='y3')  # data[3] : trace_operating_margin
-    figure['data'][4].update(yaxis='y3')  # data[4] : trace_net_margin
+    figure.append_trace(trace_revenue, 1, 1)            # 0
+    figure.append_trace(trace_operating_income, 1, 1)   # 1
+    figure.append_trace(trace_net_income, 1, 1)         # 2
+    figure.append_trace(trace_operating_margin, 1, 1)   # 3
+    figure.append_trace(trace_net_margin, 1, 1)         # 4
 
-    figure['layout']['yaxis1'].update(title='yaxis 1 title')
-    figure['layout']['yaxis2'].update(title='yaxis 2 title')
-    figure['layout']['yaxis3'] = dict(title='yaxis 3 title', anchor='x1', side='right',  showgrid=False, overlaying='y')
+    figure.append_trace(trace_operating_cash_flow, 1, 2)  # 5
+    figure.append_trace(trace_free_cash_flow, 1, 2)       # 6
+
+    figure.append_trace(trace_eps, 2, 1)              # 7
+    figure.append_trace(trace_revenue_yoy, 2, 1)       # 8
+    figure.append_trace(trace_operating_income_yoy, 2, 1) # 9
+
+    figure.append_trace(trace_dividends, 2, 2)
+    figure.append_trace(trace_payout_ratio, 2, 2)
+
+    ##########################################################################################################################
+
+    figure['data'][3].update(yaxis='y5')  # data[3] : trace_operating_margin
+    figure['data'][4].update(yaxis='y5')  # data[4] : trace_net_margin
+
+    figure['data'][8].update(yaxis='y7')  # data[8] : trace_revenue_yoy
+    figure['data'][9].update(yaxis='y7')  # data[9] : trace_operating_income_yoy
+
+    figure['data'][11].update(yaxis='y8')
+
+    figure['layout']['yaxis1'].update(title='y1')
+    figure['layout']['yaxis2'].update(title='y2')
+    figure['layout']['yaxis3'].update(title='y3')
+    figure['layout']['yaxis5'] = dict(title='y5', anchor='x1', side='right',  showgrid=False, overlaying='y')
+    figure['layout']['yaxis6'] = dict(title='y6', anchor='x2', side='right',  showgrid=False, overlaying='y2')
+    figure['layout']['yaxis7'] = dict(title='y7', anchor='x3', side='right',  showgrid=False, overlaying='y3')
+    figure['layout']['yaxis8'] = dict(title='y8', anchor='x4', side='right',  showgrid=False, overlaying='y4')
+
+    ##########################################################################################################################
 
     return figure
 
@@ -95,56 +124,6 @@ def get_graph():
     figures = customize_subplot(information_df, chart_columns)
 
     plot_div = plot(figures, output_type='div', include_plotlyjs=False)
-    # plot_div = [plot(revenue_figure, output_type='div', include_plotlyjs=False),
-    #             plot(cash_flow_figure, output_type='div', include_plotlyjs=False)]
-    
-    # graph_cash_flow = go.Graph(
-    #         id='cash-flow-graph',
-    #         figure={
-    #             'data': [
-    #                 {'x': chart_columns, 'y': information_df.values[7, 1:], 'type': 'bar',
-    #                  'name': 'Operating Cash Flow USD'},
-    #                 {'x': chart_columns, 'y': information_df.values[8, 1:], 'type': 'bar',
-    #                  'name': 'Free Cash Flow USD'}
-    #             ],
-    #             'layout': [
-    #                 {'title': 'Cash Flow Data Visualization'}
-    #             ]
-    #         }
-    #     )
-
-    # graph_yoy = go.Graph(
-    #         id='EPS-YoY-graph',
-    #         figure={
-    #             'data': [go.Bar(x=chart_columns, y=information_df.values[4, 1:], name='Earning Per Share USD'),
-    #                      go.Scatter(x=chart_columns, y=information_df.values[10, 1:], name='Revenue YoY %',
-    #                                 yaxis='y2'),
-    #                      go.Scatter(x=chart_columns, y=information_df.values[11, 1:], name='Operating Income YoY %',
-    #                                 yaxis='y2')
-    #                      ],
-    #             'layout': go.Layout(
-    #                 xaxis={'title': 'Year'},
-    #                 yaxis={'title': 'EPS USD'},
-    #                 yaxis2={'title': 'YoY %', 'overlaying': 'y', 'side': 'right'}
-    #             )
-
-    #         }
-    #     )
-
-    # graph_dividends = go.Graph(
-    #         id='dividends-payout-ratio-graph',
-    #         figure={
-    #             'data': [go.Bar(x=chart_columns, y=information_df.values[5, 1:], name='Dividends USD'),
-    #                      go.Scatter(x=chart_columns, y=information_df.values[6, 1:], name='Payout Ratio %',
-    #                                 yaxis='y2')
-    #                      ],
-    #             'layout': go.Layout(
-    #                 xaxis={'title': 'Year'},
-    #                 yaxis={'title': 'Dividends USD'},
-    #                 yaxis2={'title': 'Payout Ratio %', 'overlaying': 'y', 'side': 'right'}
-    #             )
-    #         }
-    #     )
 
     return plot_div
 
