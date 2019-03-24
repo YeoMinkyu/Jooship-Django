@@ -10,8 +10,23 @@
     <h1>Financial Statement Analysis</h1>
 </div>
 
-<div class="mid-container">
-    {# <div id="plot_container" class="col-md-8 col-md-offset-2">{{plot|safe}}</div> #}
-    <div class="col-md-12">{{plot|safe}}</div>
+<div class="mid-plot-container">
+    {# <div id="plot_container_revenue" class="col-md-8 col-md-offset-2">{{revenue_plot|safe}}</div> #}
+    <div class="col-md-12">{{revenue_plot|safe}}</div>
+</div>
+
+<div class="mid-plot-container">
+    {# <div id="plot_container_cash_flow" class="col-md-8 col-md-offset-2">{{cash_flow_plot|safe}}</div> #}
+    <div class="col-md-12">{{cash_flow_plot|safe}}</div>
+</div>
+
+<div class="mid-plot-container">
+    {# <div id="plot_container_eps" class="col-md-8 col-md-offset-2">{{eps_plot|safe}}</div> #}
+    <div class="col-md-12">{{eps_plot|safe}}</div>
+</div>
+
+<div class="mid-plot-container">
+    {# <div id="plot_container_dividends" class="col-md-8 col-md-offset-2">{{dividends_plot|safe}}</div> #}
+    <div class="col-md-12">{{dividends_plot|safe}}</div>
 </div>
 {% endblock %}

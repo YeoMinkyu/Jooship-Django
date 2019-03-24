@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.http import HttpResponse
 
 from . import plots
+
 
 # Create your views here.
 class IndexView(TemplateView):
     template_name = 'Jooship/index.html'
+
 
 class DetailView(TemplateView):
     template_name = 'Jooship/detail.html'
@@ -14,5 +15,8 @@ class DetailView(TemplateView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['plot'] = plots.get_graph()
+        context['revenue_plot'] = plots.get_revenue_plot()
+        context['cash_flow_plot'] = plots.get_cash_flow_plot()
+        context['eps_plot'] = plots.get_eps_plot()
+        context['dividends_plot'] = plots.get_dividends_plot()
         return context
