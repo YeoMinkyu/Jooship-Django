@@ -9,7 +9,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 
-file_name = os.path.join(current_dir, 'data', 'FB_from_Numbers.csv')
+file_name = os.path.join(current_dir, 'data', 'TSLA_from_Numbers.csv')
 
 fs = pd.read_csv(
     file_name,

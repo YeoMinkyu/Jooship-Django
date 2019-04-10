@@ -20,3 +20,12 @@ class DetailView(TemplateView):
         context['eps_plot'] = plots.get_eps_plot()
         context['dividends_plot'] = plots.get_dividends_plot()
         return context
+
+
+def search_ticker(request):
+    ticker = request.POST.get('ticker', False)
+    print(ticker)
+    return render(request, 'Jooship/detail.html')
+
+# class SearchView(TemplateView):
+#     pass
