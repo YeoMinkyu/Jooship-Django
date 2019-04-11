@@ -1,0 +1,7 @@
+mysite/__pycache__/
+Jooship/migrations/__pycache__/
+Jooship/__pycache__/
+.vscode/
+.idea/
+.DS_Store
+Jooship/.DS_Store
