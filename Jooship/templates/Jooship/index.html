@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>JOOSHIP</h1>
-<form id="home-search-form" action="{% url 'Jooship:search' %}" method="get" class="search nodisable">
+<form id="home-search-form" action="{% url 'Jooship:search' %}" method="post" class="search nodisable">{% csrf_token %}
     <div class="home-search-form" search-form>
         <label for="home-q" class="off-screen">search</label>
         <input class="search-input" type="search" id="home-q" name="ticker" placeholder="Search Ticker">
