@@ -1,0 +1,1 @@
+{for(i=NF;i<=12;i++){$i=$i""}print}
